@@ -8,6 +8,7 @@ radius = 36.0
 height = 118.0
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_4upfv")
 
@@ -22,3 +23,8 @@ rotation = 3.14159
 shape = SubResource("CapsuleShape2D_s2nko")
 
 [node name="RocketsLayer" type="Node" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

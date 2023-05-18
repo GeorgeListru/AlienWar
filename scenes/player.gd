@@ -3,6 +3,9 @@ extends CharacterBody2D
 @export var speed = 500
 var rocket_src = preload("res://scenes/rocket.tscn")
 @onready var rockets_layer = $RocketsLayer
+@onready var timer = $Timer
+var can_shoot = true
+signal took_damage
 
 func _physics_process(delta):
 	velocity = Vector2(0,0)
@@ -34,7 +37,19 @@ func _physics_process(delta):
 		shoot()
 		
 func shoot():
-	var rocket_instance = rocket_src.instantiate()
-	rockets_layer.add_child(rocket_instance)
-	rocket_instance.global_position = global_position
-	rocket_instance.global_position.x += 75
+	if can_shoot:
+		var rocket_instance = rocket_src.instantiate()
+		rockets_layer.add_child(rocket_instance)
+		rocket_instance.global_position = global_position
+		rocket_instance.global_position.x += 75
+		timer.start()
+		can_shoot=false
+
+
+func _on_timer_timeout():
+	can_shoot=true
+	
+
+func take_damage():
+	emit_signal("took_damage")
+	
