@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://72acvjof32eo"]
+[gd_scene load_steps=10 format=3 uid="uid://72acvjof32eo"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_1imfo"]
 [ext_resource type="Texture2D" uid="uid://dfux6fswm22uf" path="res://textures/bg.png" id="1_bkjkt"]
 [ext_resource type="PackedScene" uid="uid://sw1nlykj8s8s" path="res://scenes/player.tscn" id="2_bosvs"]
 [ext_resource type="PackedScene" uid="uid://swf85dxb0rwi" path="res://enemy_spawner.tscn" id="4_nacyo"]
+[ext_resource type="PackedScene" uid="uid://mnwbcnxtripb" path="res://scenes/hud.tscn" id="5_1r6pk"]
+[ext_resource type="AudioStream" uid="uid://cxo6ky1ha262q" path="res://audio/explode.wav" id="6_te0q1"]
+[ext_resource type="AudioStream" uid="uid://fnf32j5c0ft7" path="res://audio/sfx_laser2.wav" id="7_3rawk"]
+[ext_resource type="AudioStream" uid="uid://dir0bc7d18t6j" path="res://audio/hit.wav" id="8_eixmf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ui162"]
 size = Vector2(103, 880)
@@ -35,6 +39,20 @@ collision_mask = 4
 position = Vector2(-138, 360)
 shape = SubResource("RectangleShape2D_ui162")
 
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("5_1r6pk")]
+
+[node name="EnemyDeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_te0q1")
+
+[node name="RocketShotSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_3rawk")
+
+[node name="PlayerDamageSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_eixmf")
+
+[connection signal="rocket_shoot" from="Player" to="." method="_on_player_rocket_shoot"]
 [connection signal="took_damage" from="Player" to="." method="_on_player_took_damage"]
 [connection signal="enemy_spawned" from="EnemySpawner" to="." method="_on_enemy_spawner_enemy_spawned"]
 [connection signal="area_entered" from="DeathZone" to="." method="_on_area_2d_area_entered"]

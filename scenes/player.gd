@@ -6,6 +6,7 @@ var rocket_src = preload("res://scenes/rocket.tscn")
 @onready var timer = $Timer
 var can_shoot = true
 signal took_damage
+signal rocket_shoot
 
 func _physics_process(delta):
 	velocity = Vector2(0,0)
@@ -44,6 +45,7 @@ func shoot():
 		rocket_instance.global_position.x += 75
 		timer.start()
 		can_shoot=false
+		emit_signal("rocket_shoot")
 
 
 func _on_timer_timeout():
